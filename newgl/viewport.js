@@ -2,14 +2,14 @@ import Trigger from "./trigger.js"
 import WorldView from "./world-view.js"
 import Point from "./point.js"
 
-const DEFAULT_OPTIONS = {
-    devicePixelRatio : window.devicePixelRatio ?? 1,
-    renderPixelSize : 1,
-}
-
 export default class Viewport {
+    static DEFAULT_OPTIONS = {
+        devicePixelRatio : window.devicePixelRatio ?? 1,
+        renderPixelSize : 1,
+    }
+    
     #canvas = null
-    #options = DEFAULT_OPTIONS
+    #options = Viewport.DEFAULT_OPTIONS
     
     #screenWidth = 0
     #screenHeight = 0
@@ -56,9 +56,16 @@ export default class Viewport {
     
     }
     
-    createWorldView() {
-        const view = new WorldView(this)
+    createWorldView(worldViewOptions, screenArea = this.getArea()) {
+        const view = new WorldView(this, worldViewOptions)
         
+        if (screenArea !== null) {
+            view.setScreenArea(screenArea)
+        }
         return view
+    }
+    
+    getArea() {
+    
     }
 }
