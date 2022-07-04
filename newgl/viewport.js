@@ -1,5 +1,6 @@
 import Trigger from "./trigger.js"
 import WorldView from "./world-view.js"
+import Point from "./point.js"
 
 const DEFAULT_OPTIONS = {
     devicePixelRatio : window.devicePixelRatio ?? 1,
@@ -45,6 +46,14 @@ export default class Viewport {
         this.#canvas.height = this.#renderHeight
         
         this.events.change()
+    }
+    
+    screenPointToRender(screen, render = new Point()) {
+    
+    }
+    
+    renderPointToScreen(render, screen = new Point()) {
+    
     }
     
     createWorldView() {

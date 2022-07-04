@@ -19,16 +19,16 @@ export default class ViewPoint {
     #updateCoordinates() {
         switch (this.#anchor) {
             case ViewPoint.ANCHORS.SCREEN:
-                //render => screen
-                //world => render
+                this.#viewport?.screenPointToRender(this.#screen, this.#render)
+                this.#worldView?.renderPointToWorld(this.#render, this.#world)
                 break
             case ViewPoint.ANCHORS.RENDER:
-                //screen => render
-                //world => render
+                this.#viewport?.renderPointToScreen(this.#render, this.#screen)
+                this.#worldView?.renderPointToWorld(this.#render, this.#world)
                 break
             case ViewPoint.ANCHORS.WORLD:
-                //render => world
-                //screen => render
+                this.#worldView?.worldPointToRender(this.#world, this.#render)
+                this.#viewport?.renderPointToScreen(this.#render, this.#screen)
                 break
         }
     }
@@ -42,24 +42,24 @@ export default class ViewPoint {
     }
     
     setScreenCoordinates(x, y) {
-        this.x = x
-        this.y = y
+        this.#screen.x = x
+        this.#screen.y = y
         this.#anchor = ViewPoint.ANCHORS.SCREEN
         
         this.#updateCoordinates()
     }
     
     setRenderCoordinates(x, y) {
-        this.x = x
-        this.y = y
+        this.#render.x = x
+        this.#render.y = y
         this.#anchor = ViewPoint.ANCHORS.RENDER
     
         this.#updateCoordinates()
     }
     
     setWorldCoordinates(x, y) {
-        this.x = x
-        this.y = y
+        this.#world.x = x
+        this.#world.y = y
         this.#anchor = ViewPoint.ANCHORS.WORLD
     
         this.#updateCoordinates()
