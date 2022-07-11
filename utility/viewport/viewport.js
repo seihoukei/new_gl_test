@@ -1,5 +1,5 @@
-import Trigger from "./trigger.js"
-import WorldView from "./world-view.js"
+import Trigger from "../trigger.js"
+import WorldReference from "./world-reference.js"
 import Point from "./point.js"
 
 export default class Viewport {
@@ -53,19 +53,6 @@ export default class Viewport {
     }
     
     renderPointToScreen(render, screen = new Point()) {
-    
-    }
-    
-    createWorldView(worldViewOptions, screenArea = this.getArea()) {
-        const view = new WorldView(this, worldViewOptions)
-        
-        if (screenArea !== null) {
-            view.setScreenArea(screenArea)
-        }
-        return view
-    }
-    
-    getArea() {
     
     }
 }

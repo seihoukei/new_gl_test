@@ -1,4 +1,4 @@
-import Viewport from "./viewport.js"
+import Viewport from "../utility/viewport/viewport.js"
 
 export default class SquareGL {
     #canvas = null
