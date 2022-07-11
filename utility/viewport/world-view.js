@@ -20,8 +20,13 @@ export default class WorldView {
     #worldReference = null
     #contentRectangle = new ViewRectangle()
     
-    #viewChangeEvent = null
-    #contentChangeEvent = null
+    #events = {
+        viewChange : null,
+        contentChange : Trigger.on(
+            this.#contentRectangle.triggers.change,
+            () => this.updateWorldRestriction()
+        ),
+    }
     
     #options = WorldView.DEFAULT_OPTIONS
     
@@ -35,17 +40,19 @@ export default class WorldView {
     }
     
     setViewRectangle(viewRectangle) {
-        this.#viewChangeEvent?.cancel()
+        this.#events.viewChange?.cancel()
         this.#viewRectangle = viewRectangle
-        this.#viewChangeEvent = Trigger.on(this.#viewRectangle.triggers.change, () => this.updateWorldRestriction())
-    }
-    
-    setContentArea(left, top, right, bottom) {
-        this.#contentRectangle.setBoundaries(left, top, right, bottom)
+        this.#events.viewChange = Trigger.on(this.#viewRectangle.triggers.change, () => this.updateWorldRestriction())
     }
     
     setWorldReference(worldReference) {
         this.#worldReference = worldReference
+        this.updateWorldRestriction()
+    }
+    
+    setContentArea(left, top, right, bottom) {
+        this.#contentRectangle.setBoundaries(left, top, right, bottom)
+        
     }
     
     setRestriction(restriction, expandView = 0) {
@@ -66,6 +73,4 @@ export default class WorldView {
     viewPointToWorld(view, world = new Point()) {
     
     }
-    
-    
 }
