@@ -10,17 +10,12 @@
 //
 // Trigger.now(event, ...args) - adds new triggers to the beginning of the queue
 // Trigger.async(event, ...args) - triggers given event asynchronously (setTimeout(...,0))
-//
-// Trigger.ify(events) - adds list of unique events for object
-// <object>.events.<name>(...args) triggers every handler created with Trigger.on(<object>.events.<name>)
-//
-// Trigger.Class(events) - creates Trigger.ify-ed empty class
 
 // TriggerEventHandler:
 //
 // .disable - disables handler
 // .cancel - disables handler, cancels all its queued resolutions, blocks enabling
-// .enable - enables handler if if was not cancelled
+// .enable - enables handler if it was not cancelled
 // .setPriority(x) - the higher, the earlier handler will be added to queue for an event
 //
 // event can be identified by anything supported as a key to Map,
@@ -234,22 +229,6 @@ const Trigger = Object.assign(function(...args) {
 	async (eventID, ...args) {
 		setTimeout(Trigger.bind(Trigger, eventID, ...args), 0)
 	},
-
-	registerEvents(element, eventList) {
-		element.events ??= {}
-
-		for (let eventName of eventList) {
-			this.registerEvent(element, eventName)
-		}
-	},
-
-	registerEvent(element, eventName) {
-		element.events ??= {}
-		
-		element.events[eventName] = function trigger(...args) {
-			Trigger.event(trigger, ...args)
-		}
-	},
 	
 	triggers(...triggerList) {
 		const triggers = {}
@@ -262,19 +241,6 @@ const Trigger = Object.assign(function(...args) {
 		
 		return triggers
 	},
-
-	ify (baseClass, eventList) {
-		return class extends baseClass {
-			constructor(...args) {
-				super(...args)
-				Trigger.registerEvents(this, eventList)
-			}
-		}
-	},
-
-	Class (eventList) {
-		return Trigger.ify(class{}, eventList)
-	}
 })
 
 export default Trigger

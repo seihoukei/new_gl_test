@@ -43,7 +43,7 @@ export default class Viewport {
         this.#canvas.width = this.#renderWidth
         this.#canvas.height = this.#renderHeight
         
-        this.events.change()
+        this.triggers.change()
     }
     
     screenPointToRender(screen, render = new Point()) {
