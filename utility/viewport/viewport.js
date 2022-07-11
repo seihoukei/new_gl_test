@@ -18,15 +18,13 @@ export default class Viewport {
     #renderWidth = 0
     #renderHeight = 0
     
-    events = {}
+    triggers = Trigger.triggers("change")
     
     constructor(canvas, options = {}) {
         this.#canvas = canvas
         Object.assign(this.#options, options)
         
         this.#renderScaling = this.#options.devicePixelRatio / this.#options.renderPixelSize
-        
-        Trigger.registerEvent(this, "change")
         
         this.updateSize()
     }

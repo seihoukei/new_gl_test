@@ -250,6 +250,18 @@ const Trigger = Object.assign(function(...args) {
 			Trigger.event(trigger, ...args)
 		}
 	},
+	
+	triggers(...triggerList) {
+		const triggers = {}
+		
+		for (let triggerName of triggerList) {
+			triggers[triggerName] = function trigger(...args) {
+				Trigger.event(trigger, ...args)
+			}
+		}
+		
+		return triggers
+	},
 
 	ify (baseClass, eventList) {
 		return class extends baseClass {

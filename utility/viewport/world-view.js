@@ -1,4 +1,6 @@
 import Point from "./point.js"
+import Trigger from "../trigger.js"
+import ViewRectangle from "./view-rectangle.js"
 
 export default class WorldView {
     static RESTRICTION = {
@@ -16,6 +18,10 @@ export default class WorldView {
     
     #viewRectangle = null
     #worldReference = null
+    #contentRectangle = new ViewRectangle()
+    
+    #viewChangeEvent = null
+    #contentChangeEvent = null
     
     #options = WorldView.DEFAULT_OPTIONS
     
@@ -29,7 +35,13 @@ export default class WorldView {
     }
     
     setViewRectangle(viewRectangle) {
+        this.#viewChangeEvent?.cancel()
         this.#viewRectangle = viewRectangle
+        this.#viewChangeEvent = Trigger.on(this.#viewRectangle.triggers.change, () => this.updateWorldRestriction())
+    }
+    
+    setContentArea(left, top, right, bottom) {
+        this.#contentRectangle.setBoundaries(left, top, right, bottom)
     }
     
     setWorldReference(worldReference) {
@@ -54,5 +66,6 @@ export default class WorldView {
     viewPointToWorld(view, world = new Point()) {
     
     }
+    
     
 }
